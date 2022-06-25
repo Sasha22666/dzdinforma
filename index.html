@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Динамическая форма</title>
+</head>
+
+<body>
+    <script>
+        "use strict";
+
+        var formDef1 =
+            [
+                { label: 'Название сайта:', kind: 'longtext', name: 'sitename' },
+                { label: 'URL сайта:', kind: 'longtext', name: 'siteurl' },
+                { label: 'Посетителей в сутки:', kind: 'number', name: 'visitors' },
+                { label: 'E-mail для связи:', kind: 'shorttext', name: 'email' },
+                {
+                    label: 'Рубрика каталога:', kind: 'combo', name: 'division',
+                    variants: [{ text: 'здоровье', value: 1 }, { text: 'домашний уют', value: 2 }, { text: 'бытовая техника', value: 3 }]
+                },
+                {
+                    label: 'Размещение:', kind: 'radio', name: 'payment',
+                    variants: [{ text: 'бесплатное', value: 1 }, { text: 'платное', value: 2 }, { text: 'VIP', value: 3 }]
+                },
+                { label: 'Разрешить отзывы:', kind: 'check', name: 'votes' },
+                { label: 'Описание сайта:', kind: 'memo', name: 'description' },
+                { label: 'Опубликовать:', kind: 'submit' },
+            ];
+
+        var formDef2 =
+            [
+                { label: 'Фамилия:', kind: 'longtext', name: 'lastname' },
+                { label: 'Имя:', kind: 'longtext', name: 'firstname' },
+                { label: 'Отчество:', kind: 'longtext', name: 'secondname' },
+                { label: 'Возраст:', kind: 'number', name: 'age' },
+                { label: 'Зарегистрироваться:', kind: 'submit' },
+            ];
+
+        
+        function dynForm(mas, form) {
+            for (let elem of mas) {
+                if (elem.kind == 'longtext') {
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    let inputforma = document.createElement('input');
+                    inputforma.name = elem.name;
+                    inputforma.type = 'text';
+                    inputforma.style.width = '350px';
+
+                    form.appendChild(labelforma);
+                    form.appendChild(inputforma);
+                    let br = document.createElement('br');
+                    form.appendChild(br);                    
+                }
+
+                if (elem.kind == 'number') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    let inputforma = document.createElement('input');
+                    inputforma.type = 'number';
+                    inputforma.name = elem.name;
+                    inputforma.style.width = '50px';
+
+                    form.appendChild(labelforma);
+                    form.appendChild(inputforma);
+
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+                }
+
+                if (elem.kind == 'shorttext') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    let inputforma = document.createElement('input');
+                    inputforma.type = 'email';
+                    inputforma.name = elem.name;
+                    inputforma.style.width = '200px';
+
+                    form.appendChild(labelforma);
+                    form.appendChild(inputforma);
+
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+                }
+
+                if (elem.kind == 'combo') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    let selectforma = document.createElement('select');
+
+                    for (let elemopt of elem.variants) {
+                        let optionforma = document.createElement('option');
+                        optionforma.value = elemopt.value;
+                        optionforma.text = elemopt.text;
+                        selectforma.add(optionforma);
+                    }
+
+                    form.appendChild(labelforma);
+                    form.appendChild(selectforma);
+
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+                }
+
+                if (elem.kind == 'radio') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+                    form.appendChild(labelforma);
+
+                    for (let eleminp of elem.variants) {
+                        var inputforma = document.createElement("input");
+                        inputforma.value = eleminp.value;
+                        var spanforma = document.createElement("span");
+                        spanforma.innerText = eleminp.text;
+                        inputforma.type = "radio";
+                        form.appendChild(inputforma);
+                        form.appendChild(spanforma);
+                    }
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+                }
+
+                if (elem.kind == 'check') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    let inputforma = document.createElement("input");
+                    inputforma.type = 'checkbox';
+                    inputforma.name = elem.name;
+                    inputforma.checked = true;
+
+                    form.appendChild(labelforma);
+                    form.appendChild(inputforma);
+
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+                }
+                if (elem.kind == 'memo') {
+
+                    let labelforma = document.createElement('label');
+                    labelforma.textContent = elem.label;
+
+                    var areaforma = document.createElement("textarea");
+                    areaforma.style.width = '450px';
+                    areaforma.style.height = '100px';
+                    areaforma.name = elem.name;
+
+                    form.appendChild(labelforma);
+                    let br = document.createElement('br');
+                    form.appendChild(br);
+
+                    form.appendChild(areaforma);
+                    let br1 = document.createElement('br');
+                    form.appendChild(br1);
+                }
+                if (elem.kind == 'submit') {
+
+                    let inputforma = document.createElement("input");
+                    inputforma.type = 'submit';
+                    inputforma.value = elem.label;
+                                       
+                    form.appendChild(inputforma);
+                }
+            }
+        }
+    </script>
+
+    <input type="button" value="Создать форму 1" onclick='dynForm(formDef1, forma1);'>
+    <input type="button" value="Создать форму 2" onclick='dynForm(formDef2, forma2);'>
+
+    <form method="post" action="https://fe.it-academy.by/TestForm.php" target="_blank" name="forma1"></form><br>
+    <form method="post" action="https://fe.it-academy.by/TestForm.php" target="_blank" name="forma2"></form>
+
+</body>
+</html>
